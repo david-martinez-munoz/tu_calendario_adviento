@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tu propio calendario de adviento</title>
+  <link rel="stylesheet" href="style.css/calendario.css">
+  <style>
+    body {
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+    body.loaded {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Fondo de nieve -->
+  <canvas id="snowCanvas"></canvas>
+
+  <!-- Encabezado -->
+  <header class="calendar-header">
+    <h1>✨🎄 Tu propio calendario de adviento 🎄✨</h1>
+    <p class="subtitle">Abre una sorpresa cada día y descubre el misterio final</p>
+  </header>
+
+  <!-- Contenedor principal -->
+  <main class="calendar-container">
+    <div class="calendar-grid" id="calendarGrid"></div>
+  </main>
+
+  <!-- Montañita de nieve con muñecos -->
+  <footer class="snow-footer">
+    <!-- Muñeco de nieve izquierdo -->
+    <div class="snowman left">
+      <div class="head">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="nose"></div>
+        <div class="hat"></div>
+      </div>
+      <div class="body">
+        <div class="button"></div>
+        <div class="button"></div>
+        <div class="button"></div>
+      </div>
+    </div>
+
+    <!-- Muñeco de nieve derecho -->
+    <div class="snowman right">
+      <div class="head">
+        <div class="eye left"></div>
+        <div class="eye right"></div>
+        <div class="nose"></div>
+        <div class="hat"></div>
+      </div>
+      <div class="body">
+        <div class="button"></div>
+        <div class="button"></div>
+        <div class="button"></div>
+      </div>
+    </div>
+  </footer>
+
+<!-- ======================= -->
+<!--      SCRIPTS JS         -->
+<!-- ======================= -->
+
+<!-- 1️⃣ Contenido de los días -->
+<script src="js/dias.js"></script>
+
+<!-- 2️⃣ Lógica de interacción (nuevo archivo) -->
+<script src="js/logicaDias.js"></script>
+
+<!-- 3️⃣ Modal para mostrar el contenido -->
+<div id="modalDia" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- 4️⃣ Nieve animada -->
+<script src="js/snow.js"></script>
+
+</body>
+</html>

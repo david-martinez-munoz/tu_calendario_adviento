@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #100010 0%, #000000 80%);
+  font-family: 'Poppins', sans-serif;
+}
+
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* === BOTÓN === */
+.button-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  z-index: 10;
+  transition: all 1.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.button-container.show {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+.magic-btn {
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(90deg, #ff007f, #ff3dc0);
+  border: none;
+  padding: 15px 50px;
+  border-radius: 50px;
+  box-shadow: 0 0 25px rgba(255, 0, 150, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  backdrop-filter: blur(4px);
+}
+.magic-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 40px rgba(255, 0, 180, 1);
+}
+
+/* === LONA TRANSLÚCIDA === */
+.page-overlay {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(255, 0, 127, 0.2);
+  backdrop-filter: blur(8px);
+  transition: left 3.8s cubic-bezier(0.77, 0, 0.175, 1),
+              background 2s ease-in-out;
+}
+
+.page-overlay.visible {
+  background: rgba(255, 0, 127, 0.6);
+}
+
+/* textura visual (fibras de tela) */
+.fabric-texture {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.05) 0 1px,
+    transparent 1px 3px
+  );
+  opacity: 0.4;
+}
+
+/* === COCHE === */
+.car-icon {
+  position: absolute;
+  left: -250px;
+  bottom: 15%;
+  width: 200px;
+  height: 80px;
+  background: red;
+  border-radius: 30px 30px 12px 12px;
+  box-shadow: 0 0 35px rgba(255, 0, 0, 0.7);
+  transition: left 4s cubic-bezier(0.77, 0, 0.175, 1);
+  z-index: 25;
+}
+.car-icon::before,
+.car-icon::after {
+  content: "";
+  position: absolute;
+  bottom: -20px;
+  width: 45px;
+  height: 45px;
+  background: black;
+  border-radius: 50%;
+  border: 3px solid #333;
+}
+.car-icon::before { left: 25px; }
+.car-icon::after { right: 25px; }
+

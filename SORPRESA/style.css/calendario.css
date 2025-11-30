@@ -1,0 +1,406 @@
+/* ===== FONDO GENERAL ===== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #3b004b 0%, #18001d 40%, #1a0008 100%);
+  min-height: 100vh;
+  color: white;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* ===== EFECTO DE NIEVE ===== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+  background-size: 2px 2px;
+  animation: snow 40s linear infinite;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes snow {
+  from { background-position: 0 0; }
+  to { background-position: 0 800px; }
+}
+
+/* ===== ENCABEZADO ===== */
+.calendar-header {
+  text-align: center;
+  padding: 70px 20px 50px 20px;
+  position: relative;
+  z-index: 2;
+  border-top: 6px solid transparent;
+  border-image: linear-gradient(90deg, #ff007f, #ffd700, #ff3dc0);
+  border-image-slice: 1;
+}
+
+/* === Título equilibrado === */
+.calendar-header h1 {
+  display: inline-block;
+  max-width: 100%;
+  font-weight: 700;
+  background: linear-gradient(90deg, #ffd700, #ffb6c1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(255, 200, 50, 0.6);
+  margin-bottom: 10px;
+
+  /* 🔹 Evita saltos de línea y ajusta tamaño automáticamente */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: clamp(1.4rem, 4vw, 3.2rem);
+}
+
+
+.calendar-header h1::before,
+.calendar-header h1::after {
+  content: "✨🎄✨";
+  font-size: 1.4rem;
+  margin: 0 8px;
+  vertical-align: middle;
+}
+
+.calendar-header .subtitle {
+  font-size: 1.2rem;
+  color: #f0e6ff;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+  letter-spacing: 1px;
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.calendar-container {
+  width: 90%;
+  margin: 0 auto 120px auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== CUADRÍCULA ===== */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  justify-items: center;
+}
+
+/* ===== TARJETAS ===== */
+.day-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  overflow: hidden;
+  background: #111;
+  border: 2px solid rgba(255, 215, 0, 0.25);
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.4s ease, filter 0.3s ease;
+  cursor: pointer;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 420px;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeIn 0.8s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.day-card:nth-child(n) {
+  animation-delay: calc(0.1s * var(--i, 1));
+}
+
+.day-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  filter: brightness(1.15);
+}
+
+/* ===== FOTO DE PORTADA ===== */
+.card-photo {
+  position: relative;
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: brightness(0.9);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+}
+
+.card-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(255, 200, 150, 0.15),
+    rgba(255, 0, 150, 0.15)
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* ===== TEXTO “DÍA X” ===== */
+.card-label {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding: 18px 0;
+  letter-spacing: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: transparent;
+  background-image: linear-gradient(90deg, #fff6c1, #ffd1ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* ===== SCROLL SUAVE ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 1400px) {
+  .calendar-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 1000px) {
+  .calendar-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .calendar-grid { grid-template-columns: 1fr; }
+  .calendar-header h1 { font-size: 2.4rem; }
+}
+
+/* ===== NIEVE CON CANVAS ===== */
+#snowCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===== MONTAÑITA DE NIEVE ===== */
+.snow-footer {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background: #ffffff;
+  z-index: 2;
+  overflow: visible;
+  border-top-left-radius: 50% 60px;
+  border-top-right-radius: 50% 60px;
+  box-shadow: 0 -8px 25px rgba(255, 255, 255, 0.8);
+}
+
+.snow-footer::before {
+  content: none !important;
+}
+
+/* ===== MUÑECOS DE NIEVE ===== */
+.snowman {
+  position: absolute;
+  bottom: 100px;
+  width: 90px;
+  height: 90px;
+  z-index: 3;
+}
+
+.snowman.left { left: 70px; }
+.snowman.right { right: 70px; }
+
+.snowman .body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 20%, #ffffff 0%, #e6e6e6 80%);
+  border-radius: 50%;
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.15);
+}
+
+.snowman .head {
+  position: absolute;
+  top: -55%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle at 50% 20%, #ffffff 0%, #e6e6e6 80%);
+  border-radius: 50%;
+  z-index: 2;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.snowman .eye {
+  position: absolute;
+  top: 25%;
+  width: 8px;
+  height: 8px;
+  background: #333;
+  border-radius: 50%;
+}
+.snowman .eye.left { left: 25%; }
+.snowman .eye.right { right: 25%; }
+
+.snowman .nose {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-left: 6px solid orange;
+  border-top: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  transform: translateX(-50%) rotate(10deg);
+}
+
+.snowman .hat {
+  position: absolute;
+  top: -30%;
+  left: 30%;
+  width: 40%;
+  height: 15%;
+  background: #222;
+  border-radius: 2px;
+}
+.snowman .hat::before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: -30%;
+  width: 160%;
+  height: 5px;
+  background: #222;
+  border-radius: 2px;
+}
+
+.snowman .button {
+  position: absolute;
+  left: 45%;
+  width: 8px;
+  height: 8px;
+  background: #333;
+  border-radius: 50%;
+}
+.snowman .button:nth-child(1) { top: 35%; }
+.snowman .button:nth-child(2) { top: 50%; }
+.snowman .button:nth-child(3) { top: 65%; }
+
+/* ===== CARTA DE HOGWARTS ===== */
+.carta-hp {
+  position: relative;
+  background: url("../assets/img/pergamino_hp_limpio.jpeg") center/cover no-repeat;
+  padding: 450px 90px 100px 90px; /* 🔹 Subido el padding-top de 140px → 240px */
+  max-width: 700px;
+  min-height: 900px;
+  margin: 0 auto;
+  color: #3b2b17;
+  font-family: 'Times New Roman', serif;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: justify;
+  border-radius: 10px;
+  animation: aparecerCarta 1.5s ease forwards;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+}
+
+.carta-hp h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #3b2b17;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+}
+
+.carta-hp p {
+  margin-bottom: 15px;
+}
+
+
+@keyframes aparecerCarta {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== MODAL ===== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  color: #111;
+  border-radius: 15px;
+  padding: 30px;
+  max-width: 800px;
+  width: 90%;
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 2rem;
+  color: #555;
+  cursor: pointer;
+}
+/* === DÍAS BLOQUEADOS === */
+.day-card.locked {
+  position: relative;
+  opacity: 0.6;
+  filter: grayscale(80%);
+  cursor: not-allowed;
+}
+
+.lock-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: rgba(255, 215, 0, 0.8);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
+}
+
+.locked-msg {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffd700;
+  font-size: 0.9rem;
+  padding: 6px 14px;
+  border-radius: 10px;
+  animation: fadeMsg 2s ease forwards;
+}
+
+@keyframes fadeMsg {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  20% { opacity: 1; transform: translate(-50%, 0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -10px); }
+}
